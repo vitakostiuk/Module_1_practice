@@ -1,22 +1,20 @@
-// import fetchMovies from '../index';
+import PokemonsList from './PokemonsList';
 import pokemons from '../pokemons.json';
-import Pokemon from './Pokemon';
+import Section from '../components/Section';
 
-export const App = () => {
+const App = () => {
   return (
     <div>
-      <Pokemon 
-        url = { pokemons[0].url }
-        title = { pokemons[0].title }
-        id={pokemons[0].id}
-      />
-    </div>)
+      <Section title="Топ недели">
+        <PokemonsList items={pokemons} />
+        <PokemonsList items={pokemons} />
+      </Section>
+
+      <Section title="Other">
+        <PokemonsList items={pokemons} />
+      </Section>
+    </div>
+  );
 };
 
-// const getMovies = () => {
-//   fetchMovies().then(pokemon => {
-//     console.log(pokemon);
-//   })
-// }
-  
-// getMovies();
+export default App;

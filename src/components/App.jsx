@@ -1,17 +1,22 @@
+// import fetchMovies from '../index';
+import pokemons from '../pokemons.json';
+import Pokemon from './Pokemon';
+
 export const App = () => {
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        textTransform: 'uppercase',
-        color: '#010101',
-      }}
-    >
-      React homework template
-    </div>
-  );
+    <div>
+      <Pokemon 
+        url = { pokemons[0].url }
+        title = { pokemons[0].title }
+        id={pokemons[0].id}
+      />
+    </div>)
 };
+
+// const getMovies = () => {
+//   fetchMovies().then(pokemon => {
+//     console.log(pokemon);
+//   })
+// }
+  
+// getMovies();

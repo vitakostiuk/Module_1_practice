@@ -1,5 +1,5 @@
 import PokemonsList from './PokemonsList';
-// import pokemons from '../pokemons.json';
+import pokemons from '../pokemons.json';
 import Section from '../components/Section';
 
 const App = () => {

@@ -12,6 +12,7 @@ const App = () => {
 
       <Section title="Other">
         <PokemonsList items={pokemons} />
+        <PokemonsList items={pokemons} />
       </Section>
     </div>
   );

@@ -1,19 +1,11 @@
-import PokemonsList from './PokemonsList';
-import pokemons from '../pokemons.json';
-import Section from '../components/Section';
+// import { Counter } from './Counter/Counter';
+import { Dropdown } from './Dropdown/Dropdown';
 
 const App = () => {
   return (
     <div>
-      <Section title="Топ недели">
-        <PokemonsList items={pokemons} />
-        <PokemonsList items={pokemons} />
-      </Section>
-
-      <Section title="Other">
-        <PokemonsList items={pokemons} />
-        <PokemonsList items={pokemons} />
-      </Section>
+      {/* <Counter /> */}
+      <Dropdown />
     </div>
   );
 };

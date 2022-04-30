@@ -1,0 +1,21 @@
+.ColorPicker {
+  padding: 10px;
+}
+
+.ColorPicker__title {
+  line-height: 1.3;
+}
+
+.ColorPicker__option {
+  display: inline-block;
+  width: 80px;
+  height: 40px;
+  margin: 4px;
+  cursor: pointer;
+  color: #fff;
+  border: none;
+}
+
+.ColorPicker__active {
+  transform: scale(1.2);
+}

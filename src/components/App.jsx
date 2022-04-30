@@ -1,11 +1,14 @@
 // import { Counter } from './Counter/Counter';
-import { Dropdown } from './Dropdown/Dropdown';
+// import { Dropdown } from './Dropdown/Dropdown';
+import ColorPicker from './ColorPicker/ColorPicker';
+import colorPickerOptions from './ColorPicker/colorPickerOptions';
 
 const App = () => {
   return (
     <div>
       {/* <Counter /> */}
-      <Dropdown />
+      {/* <Dropdown /> */}
+      <ColorPicker options={colorPickerOptions} />
     </div>
   );
 };

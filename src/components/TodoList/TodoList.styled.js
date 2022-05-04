@@ -18,6 +18,7 @@ export const Paragraf = styled.p`
   font-weight: 500;
   margin: 0;
   padding: 0;
+  text-decoration: ${props => props.completed && 'line-through'};
 `;
 
 export const Item = styled.li`

@@ -2,11 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Paragraf, Item, List } from './TodoList.styled';
 
-export const TodoList = ({ todos, onDeleteTodo }) => (
+export const TodoList = ({ todos, onDeleteTodo, onToogleCompleted }) => (
   <List>
-    {todos.map(({ id, text }) => (
+    {todos.map(({ id, text, completed }) => (
       <Item key={id}>
-        <Paragraf>{text}</Paragraf>
+        <input
+          type="checkbox"
+          checked={completed}
+          onChange={() => onToogleCompleted(id)}
+        ></input>
+        <Paragraf completed={completed}>{text}</Paragraf>
         <Button type="button" onClick={() => onDeleteTodo(id)}>
           Удалить
         </Button>

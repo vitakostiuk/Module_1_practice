@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 // import ColorPicker from './ColorPicker';
 // import colorPickerOptions from './ColorPicker/colorPickerOptions';
 import { TodoList } from './TodoList';
+// import { Form } from './Form';
 
 class App extends Component {
   state = {
@@ -20,12 +21,36 @@ class App extends Component {
     }));
   };
 
+  toogleCompleted = todoId => {
+    console.log(todoId);
+
+    this.setState(prevState => ({
+      todos: prevState.todos.map(todo => {
+        if (todo.id === todoId) {
+          console.log('Нашли тот туду, который нужно!');
+          console.log(todo);
+
+          return {
+            ...todo,
+            completed: !todo.completed,
+          };
+        }
+
+        return todo;
+      }),
+    }));
+  };
+
+  // formSubmitHandler = data => {
+  //   console.log(data);
+  // };
+
   render() {
     const { todos } = this.state;
     const todoCount = todos.length;
-    //with filter
-    // const todoCompleted = todos.filter(({ completed }) => completed).length;
-    //with reduce
+    // ////with filter
+    // // const todoCompleted = todos.filter(({ completed }) => completed).length;
+    // ////with reduce
     const todoCompletedCount = todos.reduce(
       (acc, { completed }) => (completed ? acc + 1 : acc),
       0
@@ -36,12 +61,16 @@ class App extends Component {
         {/* <Counter /> */}
         {/* <Dropdown /> */}
         {/* <ColorPicker options={colorPickerOptions} /> */}
-
         <div>
           <p>Общее кол-во: {todoCount}</p>
           <p>Кол-во выполненных: {todoCompletedCount}</p>
         </div>
-        <TodoList todos={todos} onDeleteTodo={this.deleteTodo} />
+        <TodoList
+          todos={todos}
+          onDeleteTodo={this.deleteTodo}
+          onToogleCompleted={this.toogleCompleted}
+        />
+        {/* <Form onSubmit={this.formSubmitHandler} /> */}
       </>
     );
   }

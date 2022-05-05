@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import shortid from 'shortid';
 // import { Counter } from './Counter';
 // import { Dropdown } from './Dropdown';
 // import ColorPicker from './ColorPicker';
 // import colorPickerOptions from './ColorPicker/colorPickerOptions';
 import { TodoList } from './TodoList';
+import { TodoEditor } from './TodoEditor';
+import { Filter } from './TodoList/Filter';
 // import { Form } from './Form';
 
 class App extends Component {
@@ -13,6 +16,23 @@ class App extends Component {
       { id: 'id-2', text: 'Выучить основы React Router', completed: false },
       { id: 'id-3', text: 'Пережить Redux', completed: false },
     ],
+    filter: '',
+  };
+
+  addToDo = text => {
+    const todo = {
+      id: shortid.generate(),
+      text,
+      completed: false,
+    };
+    //----БЕЗ деструктуризации-----
+    // this.setState(prevState => ({
+    //   todos: [todo, ...prevState.todos],
+    // }));
+    //----После деструктуризации-----
+    this.setState(({ todos }) => ({
+      todos: [todo, ...todos],
+    }));
   };
 
   deleteTodo = todoId => {
@@ -41,21 +61,35 @@ class App extends Component {
     }));
   };
 
+  changeFilter = e => {
+    this.setState({
+      filter: e.currentTarget.value,
+    });
+  };
+
+  getFilteredTodos = () => {
+    const { todos, filter } = this.state;
+    const normalizedFilter = filter.toLowerCase();
+    return todos.filter(todo =>
+      todo.text.toLowerCase().includes(normalizedFilter)
+    );
+  };
+
+  getCompletedTodoCount = () => {
+    const { todos } = this.state;
+    // -----with filter------
+    // return todos.filter(({ completed }) => completed).length;
+    // -----with reduce------
+    return todos.reduce((acc, { completed }) => (completed ? acc + 1 : acc), 0);
+  };
+
   // formSubmitHandler = data => {
   //   console.log(data);
   // };
 
   render() {
-    const { todos } = this.state;
+    const { todos, filter } = this.state;
     const todoCount = todos.length;
-    // ////with filter
-    // // const todoCompleted = todos.filter(({ completed }) => completed).length;
-    // ////with reduce
-    const todoCompletedCount = todos.reduce(
-      (acc, { completed }) => (completed ? acc + 1 : acc),
-      0
-    );
-
     return (
       <>
         {/* <Counter /> */}
@@ -63,10 +97,12 @@ class App extends Component {
         {/* <ColorPicker options={colorPickerOptions} /> */}
         <div>
           <p>Общее кол-во: {todoCount}</p>
-          <p>Кол-во выполненных: {todoCompletedCount}</p>
+          <p>Кол-во выполненных: {this.getCompletedTodoCount()}</p>
         </div>
+        <TodoEditor onSubmit={this.addToDo} />
+        <Filter value={filter} onChange={this.changeFilter} />
         <TodoList
-          todos={todos}
+          todos={this.getFilteredTodos()}
           onDeleteTodo={this.deleteTodo}
           onToogleCompleted={this.toogleCompleted}
         />

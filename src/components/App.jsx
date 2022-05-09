@@ -92,7 +92,7 @@ class App extends Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevState) {
     console.log(prevState);
     console.log(this.state);
     if (this.state.todos !== prevState.todos) {

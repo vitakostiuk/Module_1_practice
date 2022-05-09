@@ -11,11 +11,7 @@ import { Filter } from './TodoList/Filter';
 
 class App extends Component {
   state = {
-    todos: [
-      { id: 'id-1', text: 'Выучить основы React', completed: true },
-      { id: 'id-2', text: 'Выучить основы React Router', completed: false },
-      { id: 'id-3', text: 'Пережить Redux', completed: false },
-    ],
+    todos: [],
     filter: '',
   };
 
@@ -86,6 +82,25 @@ class App extends Component {
   // formSubmitHandler = data => {
   //   console.log(data);
   // };
+
+  componentDidMount() {
+    const todos = localStorage.getItem('todos');
+    const parsedTodos = JSON.parse(todos);
+
+    if (parsedTodos) {
+      this.setState({ todos: parsedTodos });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log(prevState);
+    console.log(this.state);
+    if (this.state.todos !== prevState.todos) {
+      console.log('Обновилось поле, записываю todos в хранилище');
+
+      localStorage.setItem('todos', JSON.stringify(this.state.todos));
+    }
+  }
 
   render() {
     const { todos, filter } = this.state;

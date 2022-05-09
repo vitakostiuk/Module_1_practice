@@ -4,16 +4,37 @@ import shortid from 'shortid';
 // import { Dropdown } from './Dropdown';
 // import ColorPicker from './ColorPicker';
 // import colorPickerOptions from './ColorPicker/colorPickerOptions';
-import { TodoList } from './TodoList';
-import { TodoEditor } from './TodoEditor';
-import { Filter } from './TodoList/Filter';
+// import { TodoList } from './TodoList';
+// import { TodoEditor } from './TodoEditor';
+// import { Filter } from './TodoList/Filter';
 // import { Form } from './Form';
+import { Modal } from './Modal';
 
 class App extends Component {
   state = {
     todos: [],
     filter: '',
+    showModal: false,
   };
+
+  componentDidMount() {
+    const todos = localStorage.getItem('todos');
+    const parsedTodos = JSON.parse(todos);
+
+    if (parsedTodos) {
+      this.setState({ todos: parsedTodos });
+    }
+  }
+
+  componentDidUpdate(prevState) {
+    // console.log(prevState);
+    // console.log(this.state);
+    if (this.state.todos !== prevState.todos) {
+      // console.log('Обновилось поле, записываю todos в хранилище');
+
+      localStorage.setItem('todos', JSON.stringify(this.state.todos));
+    }
+  }
 
   addToDo = text => {
     const todo = {
@@ -38,7 +59,7 @@ class App extends Component {
   };
 
   toogleCompleted = todoId => {
-    console.log(todoId);
+    // console.log(todoId);
 
     this.setState(prevState => ({
       todos: prevState.todos.map(todo => {
@@ -83,34 +104,21 @@ class App extends Component {
   //   console.log(data);
   // };
 
-  componentDidMount() {
-    const todos = localStorage.getItem('todos');
-    const parsedTodos = JSON.parse(todos);
-
-    if (parsedTodos) {
-      this.setState({ todos: parsedTodos });
-    }
-  }
-
-  componentDidUpdate(prevState) {
-    console.log(prevState);
-    console.log(this.state);
-    if (this.state.todos !== prevState.todos) {
-      console.log('Обновилось поле, записываю todos в хранилище');
-
-      localStorage.setItem('todos', JSON.stringify(this.state.todos));
-    }
-  }
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    }));
+  };
 
   render() {
-    const { todos, filter } = this.state;
+    const { todos, filter, showModal } = this.state;
     const todoCount = todos.length;
     return (
       <>
         {/* <Counter /> */}
         {/* <Dropdown /> */}
         {/* <ColorPicker options={colorPickerOptions} /> */}
-        <div>
+        {/* <div>
           <p>Общее кол-во: {todoCount}</p>
           <p>Кол-во выполненных: {this.getCompletedTodoCount()}</p>
         </div>
@@ -120,8 +128,32 @@ class App extends Component {
           todos={this.getFilteredTodos()}
           onDeleteTodo={this.deleteTodo}
           onToogleCompleted={this.toogleCompleted}
-        />
+        /> */}
         {/* <Form onSubmit={this.formSubmitHandler} /> */}
+        <button type="button" onClick={this.toggleModal}>
+          Открыть модалку
+        </button>
+        {showModal && (
+          <Modal onKeyDown={this.toggleModal}>
+            <h1>Контент модалки</h1>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo
+              eligendi aliquid nostrum expedita aut unde voluptatum. Quam
+              impedit natus numquam! Sunt illum accusantium ad eius dolores
+              facere quod corporis quis? Quisquam dolores modi tenetur, neque
+              suscipit quibusdam doloribus numquam commodi iusto porro fugit
+              nihil eum quos velit doloremque quaerat enim natus, quidem est ea
+              laboriosam nemo. Iure placeat sit fugit? Laudantium fugiat
+              voluptates exercitationem nesciunt laborum totam harum asperiores
+              rerum ipsa assumenda vitae ipsum ipsam, sit reprehenderit
+              molestias vel! Eligendi, ab! Sed cum veniam ea libero quos atque
+              iusto veritatis.
+            </p>
+            <button type="button" onClick={this.toggleModal}>
+              Close
+            </button>
+          </Modal>
+        )}
       </>
     );
   }

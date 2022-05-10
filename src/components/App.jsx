@@ -4,11 +4,14 @@ import shortid from 'shortid';
 // import { Dropdown } from './Dropdown';
 // import ColorPicker from './ColorPicker';
 // import colorPickerOptions from './ColorPicker/colorPickerOptions';
-// import { TodoList } from './TodoList';
-// import { TodoEditor } from './TodoEditor';
-// import { Filter } from './TodoList/Filter';
+import { TodoList } from './TodoList';
+import { TodoEditor } from './TodoEditor';
+import { Filter } from './TodoList/Filter';
 // import { Form } from './Form';
 import { Modal } from './Modal';
+import { IconButton } from './IconButton';
+import { HiOutlineLockOpen, HiOutlineLockClosed } from 'react-icons/hi';
+// import { HiOutlineLockClosed } from 'react-icons/hi';
 
 class App extends Component {
   state = {
@@ -27,11 +30,10 @@ class App extends Component {
   }
 
   componentDidUpdate(prevState) {
-    // console.log(prevState);
-    // console.log(this.state);
-    if (this.state.todos !== prevState.todos) {
+    console.log(prevState);
+    console.log(this.state);
+    if (this.state.length !== prevState.length) {
       // console.log('Обновилось поле, записываю todos в хранилище');
-
       localStorage.setItem('todos', JSON.stringify(this.state.todos));
     }
   }
@@ -50,6 +52,8 @@ class App extends Component {
     this.setState(({ todos }) => ({
       todos: [todo, ...todos],
     }));
+
+    this.toggleModal();
   };
 
   deleteTodo = todoId => {
@@ -118,42 +122,31 @@ class App extends Component {
         {/* <Counter /> */}
         {/* <Dropdown /> */}
         {/* <ColorPicker options={colorPickerOptions} /> */}
-        {/* <div>
+        <IconButton onClick={this.toggleModal} aria-label="Open todo">
+          Open <HiOutlineLockOpen />
+        </IconButton>
+        <div>
           <p>Общее кол-во: {todoCount}</p>
           <p>Кол-во выполненных: {this.getCompletedTodoCount()}</p>
         </div>
-        <TodoEditor onSubmit={this.addToDo} />
         <Filter value={filter} onChange={this.changeFilter} />
         <TodoList
           todos={this.getFilteredTodos()}
           onDeleteTodo={this.deleteTodo}
           onToogleCompleted={this.toogleCompleted}
-        /> */}
+        />
         {/* <Form onSubmit={this.formSubmitHandler} /> */}
-        <button type="button" onClick={this.toggleModal}>
-          Открыть модалку
-        </button>
         {showModal && (
           <Modal onKeyDown={this.toggleModal}>
-            <h1>Контент модалки</h1>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo
-              eligendi aliquid nostrum expedita aut unde voluptatum. Quam
-              impedit natus numquam! Sunt illum accusantium ad eius dolores
-              facere quod corporis quis? Quisquam dolores modi tenetur, neque
-              suscipit quibusdam doloribus numquam commodi iusto porro fugit
-              nihil eum quos velit doloremque quaerat enim natus, quidem est ea
-              laboriosam nemo. Iure placeat sit fugit? Laudantium fugiat
-              voluptates exercitationem nesciunt laborum totam harum asperiores
-              rerum ipsa assumenda vitae ipsum ipsam, sit reprehenderit
-              molestias vel! Eligendi, ab! Sed cum veniam ea libero quos atque
-              iusto veritatis.
-            </p>
-            <button type="button" onClick={this.toggleModal}>
-              Close
-            </button>
+            <TodoEditor onSubmit={this.addToDo} />
+            <IconButton onClick={this.toggleModal} aria-label="Open todo">
+              Close <HiOutlineLockClosed />
+            </IconButton>
           </Modal>
         )}
+        {/* <button type="button" onClick={this.toggleModal}>
+          Открыть модалку
+        </button> */}
       </>
     );
   }
